@@ -1,0 +1,114 @@
+{
+  "baseline": {
+    "nodes": 475,
+    "edges": 13289,
+    "density": 0.059,
+    "reciprocity": 0.4616,
+    "scc_count": 7,
+    "largest_scc_frac": 0.9874,
+    "avg_clustering": 0.3014,
+    "avg_path_length": 2.35,
+    "diameter": 6
+  },
+  "scenarios": {
+    "top_5_overall": {
+      "nodes": 470,
+      "edges": 12349,
+      "density": 0.056,
+      "reciprocity": 0.4523,
+      "scc_count": 7,
+      "largest_scc_frac": 0.9872,
+      "avg_clustering": 0.2819,
+      "avg_path_length": 2.41,
+      "diameter": 6
+    },
+    "top_10_overall": {
+      "nodes": 465,
+      "edges": 11951,
+      "density": 0.0554,
+      "reciprocity": 0.4547,
+      "scc_count": 7,
+      "largest_scc_frac": 0.9871,
+      "avg_clustering": 0.2763,
+      "avg_path_length": 2.41,
+      "diameter": 6
+    },
+    "top_15_overall": {
+      "nodes": 460,
+      "edges": 11668,
+      "density": 0.0553,
+      "reciprocity": 0.4573,
+      "scc_count": 8,
+      "largest_scc_frac": 0.9848,
+      "avg_clustering": 0.2769,
+      "avg_path_length": 2.41,
+      "diameter": 6
+    },
+    "top_5_dem": {
+      "nodes": 470,
+      "edges": 12629,
+      "density": 0.0573,
+      "reciprocity": 0.4639,
+      "scc_count": 7,
+      "largest_scc_frac": 0.9872,
+      "avg_clustering": 0.29,
+      "avg_path_length": 2.38,
+      "diameter": 6
+    },
+    "top_10_dem": {
+      "nodes": 465,
+      "edges": 12219,
+      "density": 0.0566,
+      "reciprocity": 0.4658,
+      "scc_count": 8,
+      "largest_scc_frac": 0.9849,
+      "avg_clustering": 0.2868,
+      "avg_path_length": 2.38,
+      "diameter": 5
+    },
+    "top_15_dem": {
+      "nodes": 460,
+      "edges": 11947,
+      "density": 0.0566,
+      "reciprocity": 0.4696,
+      "scc_count": 8,
+      "largest_scc_frac": 0.9848,
+      "avg_clustering": 0.2873,
+      "avg_path_length": 2.38,
+      "diameter": 5
+    },
+    "top_5_rep": {
+      "nodes": 470,
+      "edges": 12707,
+      "density": 0.0576,
+      "reciprocity": 0.4539,
+      "scc_count": 7,
+      "largest_scc_frac": 0.9872,
+      "avg_clustering": 0.2928,
+      "avg_path_length": 2.38,
+      "diameter": 6
+    },
+    "top_10_rep": {
+      "nodes": 465,
+      "edges": 12351,
+      "density": 0.0572,
+      "reciprocity": 0.4549,
+      "scc_count": 7,
+      "largest_scc_frac": 0.9871,
+      "avg_clustering": 0.2896,
+      "avg_path_length": 2.39,
+      "diameter": 6
+    },
+    "top_15_rep": {
+      "nodes": 460,
+      "edges": 12060,
+      "density": 0.0571,
+      "reciprocity": 0.4549,
+      "scc_count": 7,
+      "largest_scc_frac": 0.987,
+      "avg_clustering": 0.289,
+      "avg_path_length": 2.39,
+      "diameter": 6
+    }
+  }
+}

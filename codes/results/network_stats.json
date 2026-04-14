@@ -1,0 +1,14 @@
+{
+  "nodes": 475,
+  "directed_edges": 13289,
+  "avg_in_out_degree": 27.98,
+  "avg_edge_weight": 0.005812,
+  "graph_density": 0.059,
+  "reciprocity": 0.4616,
+  "weakly_connected_components": 1,
+  "strongly_connected_components": 7,
+  "largest_scc_size": 469,
+  "diameter": 6,
+  "avg_path_length": 2.35,
+  "avg_clustering_coefficient": 0.3014
+}

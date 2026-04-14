@@ -1,0 +1,4 @@
+community,nodes,edges,avg_degree,avg_clustering,avg_edge_weight,reciprocity
+Democrat,205,4457,43.48,0.3615,0.005144,0.4617
+Republican,178,4374,49.15,0.4574,0.006926,0.4989
+Other,92,1420,30.87,0.4124,0.005779,0.5254

@@ -1,0 +1,9 @@
+{
+  "max_k": 27,
+  "inner_core_size": 201,
+  "party_composition": {
+    "Democrat": 109,
+    "Republican": 88,
+    "Other": 4
+  }
+}

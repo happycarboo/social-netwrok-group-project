@@ -1,0 +1,8 @@
+{
+  "in_degree_centralisation": 0.2094,
+  "out_degree_centralisation": 0.3848,
+  "betweenness_centralisation": 0.0704,
+  "max_in_degree_node": "GOPLeader",
+  "max_out_degree_node": "SpeakerPelosi",
+  "max_betweenness_node": "GOPLeader"
+}

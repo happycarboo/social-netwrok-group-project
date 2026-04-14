@@ -1,0 +1,13 @@
+{
+  "within_party_edges": 10251,
+  "cross_party_edges": 3038,
+  "within_party_pct": 77.1,
+  "within_party_weight_pct": 79.5,
+  "dem_to_rep_edges": 589,
+  "rep_to_dem_edges": 540,
+  "dem_to_rep_weight": 2.9681,
+  "rep_to_dem_weight": 3.3287,
+  "median_weight_threshold": 0.003731,
+  "strong_within_party_pct": 80.0,
+  "strong_cross_party_pct": 20.0
+}

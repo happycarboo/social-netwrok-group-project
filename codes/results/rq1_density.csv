@@ -1,0 +1,4 @@
+community,size,internal_edges,internal_density,external_edges,external_density,ratio,cohesive
+Democrat,205,4457,0.1066,2403,0.0217,4.9,True
+Republican,178,4374,0.1388,1764,0.0167,8.3,True
+Other,92,1420,0.1696,1909,0.0271,6.3,True

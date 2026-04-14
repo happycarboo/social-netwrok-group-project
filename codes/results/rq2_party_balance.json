@@ -1,0 +1,17 @@
+{
+  "top_10": {
+    "Democrat": 3,
+    "Republican": 7,
+    "Other": 0
+  },
+  "top_20": {
+    "Democrat": 6,
+    "Republican": 13,
+    "Other": 1
+  },
+  "top_50": {
+    "Democrat": 16,
+    "Republican": 28,
+    "Other": 6
+  }
+}

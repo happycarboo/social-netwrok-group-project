@@ -1,0 +1,36 @@
+{
+  "top_republican": {
+    "username": "SteveScalise",
+    "party": "Republican",
+    "neighbors": 102,
+    "out_degree": 89,
+    "in_degree": 63,
+    "out_strength": 0.9351,
+    "in_strength": 0.4603,
+    "neighbor_party": {
+      "Other": 2,
+      "Republican": 96,
+      "Democrat": 4
+    },
+    "same_party_neighbors_pct": 94.1,
+    "cross_party_neighbors_pct": 5.9,
+    "ego_density": 0.1943
+  },
+  "top_democrat": {
+    "username": "SpeakerPelosi",
+    "party": "Democrat",
+    "neighbors": 214,
+    "out_degree": 210,
+    "in_degree": 51,
+    "out_strength": 0.9436,
+    "in_strength": 0.2403,
+    "neighbor_party": {
+      "Other": 25,
+      "Democrat": 123,
+      "Republican": 66
+    },
+    "same_party_neighbors_pct": 57.5,
+    "cross_party_neighbors_pct": 42.5,
+    "ego_density": 0.0993
+  }
+}

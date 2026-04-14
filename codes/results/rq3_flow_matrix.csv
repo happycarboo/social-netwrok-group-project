@@ -1,0 +1,10 @@
+source,target,edge_count,total_weight
+Democrat,Democrat,4457,22.927999
+Democrat,Republican,589,2.968087
+Democrat,Other,471,2.471977
+Republican,Democrat,540,3.328721
+Republican,Republican,4374,30.293301
+Republican,Other,195,1.236105
+Other,Democrat,803,3.963808
+Other,Republican,440,1.832934
+Other,Other,1420,8.206484
