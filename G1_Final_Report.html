@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>G1 Final Report</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">G1 Final Report</h1>
+</header>
+<h1 id="tba3241-social-media-analytics">TBA3241 Social Media
+Analytics</h1>
+<p><strong>AY25/26 Semester 2</strong></p>
+<p><strong>Final Report</strong></p>
+<p><strong>Group 1</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Matriculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HAN LIHUI</td>
+<td>A0265957J</td>
+</tr>
+<tr>
+<td>LI XUAN</td>
+<td>A0287600E</td>
+</tr>
+<tr>
+<td>JERIN PAUL</td>
+<td>A0227170M</td>
+</tr>
+<tr>
+<td>ZHANG LONGSHENG</td>
+<td>A0287626N</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#executive-summary">Executive Summary</a></li>
+<li><a href="#data--network-construction">Data &amp; Network
+Construction</a></li>
+<li><a href="#network-overview">Network Overview</a></li>
+<li><a href="#research-questions">Research Questions</a>
+<ul>
+<li><a href="#rq1-community-differences">RQ1: Community
+Differences</a></li>
+<li><a href="#rq2-focus-on-influence">RQ2: Focus on Influence</a></li>
+<li><a href="#rq3-cross-party-influence">RQ3: Cross-Party
+Influence</a></li>
+<li><a href="#rq4-what-if-analysis">RQ4: What-If Analysis</a></li>
+</ul></li>
+<li><a href="#implications">Implications</a></li>
+<li><a href="#conclusion-and-limitations">Conclusion and
+Limitations</a></li>
+<li><a href="#reproducibility">Reproducibility</a></li>
+<li><a href="#references">References</a></li>
+<li><a href="#declaration-of-ai-tool-usage">Declaration of AI Tool
+Usage</a></li>
+<li><a href="#appendix-a">Appendix A</a></li>
+</ol>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This report analyses the Twitter Interaction Network of the 117th
+U.S. Congress to understand how political influence flows among
+legislators on social media. Using a directed, weighted network of 475
+members and 13,289 edges, we address four research questions covering
+community structure, individual influence, cross-party information flow,
+and network resilience to node removal.</p>
+<p>Key findings:</p>
+<ul>
+<li><strong>Three cohesive party communities</strong> exist. Internal
+edge density exceeds external density by 4.9–8.3x for all three groups,
+confirming that party affiliation drives network clustering. Republicans
+exhibit higher per-node density and clustering, while Democrats dominate
+the densest inner core (54.2% of k=27 core vs 43.2% of the
+network).</li>
+<li><strong>Influence is concentrated and asymmetric.</strong>
+Out-degree centralisation (0.38) far exceeds betweenness centralisation
+(0.07), indicating a few high-volume broadcasters rather than strategic
+brokers dominate outreach. Republicans hold 7 of the top 10 Viral
+Centrality positions; GOPLeader uniquely combines the highest
+betweenness (0.073) and eigenvector centrality.</li>
+<li><strong>77% of edges stay within the same party.</strong> Strong
+ties are even more partisan (80% within-party). No articulation points
+exist, yet a small set of cross-party bridgers carry disproportionate
+weight.</li>
+<li><strong>The network is resilient to targeted removal.</strong>
+Removing the top 15 influencers reduces edges by 12% but barely changes
+the largest strongly connected component (98.5% intact), demonstrating
+distributed redundancy.</li>
+</ul>
+<hr />
+<h2 id="data-network-construction">Data &amp; Network Construction</h2>
+<h3 id="data-source">Data Source</h3>
+<p>This study uses the <strong>Twitter Interaction Network for the U.S.
+Congress</strong>, obtained from the Stanford Network Analysis Project
+(SNAP). The dataset consists of publicly available Twitter interactions
+among members of the 117th U.S. Congress, originally collected via the
+Twitter API (Tweepy) as of 9 June 2022 (Fink, Omodt, Zinnecker, &amp;
+Sprint, 2023).</p>
+<h3 id="data-cleaning">Data Cleaning</h3>
+<p>Tweets created outside the common observation window (9 February to 9
+June 2022) were excluded. Members tweeting fewer than 100 times during
+this window were also excluded (Fink et al., 2023). The final dataset
+contains <strong>475 active members</strong> and <strong>13,289 directed
+edges</strong>.</p>
+<p>Two forms of sampling bias are acknowledged:</p>
+<ol type="1">
+<li><strong>Activity bias</strong> – less-active members are excluded,
+over-representing highly engaged legislators.</li>
+<li><strong>Temporal bias</strong> – the four-month snapshot may not
+reflect long-term stable interaction patterns.</li>
+</ol>
+<h3 id="network-construction">Network Construction</h3>
+<p>For each ordered pair of members <em>(i, j)</em>, all interactions
+(retweets, replies, mentions, quote tweets) by <em>i</em> that reference
+<em>j</em> were counted. This raw count was then normalised by the total
+number of tweets posted by <em>i</em> during the observation window,
+producing a <strong>pairwise influence probability</strong> (Fink et
+al., 2023):</p>
+<p><span class="math display">$$p_{ij} \;=\;
+\frac{n_{ij}}{T_i}$$</span></p>
+<p>where <em>n_ij</em> is the number of tweets by <em>i</em> that
+interact with <em>j</em> (retweets + quote tweets + replies + mentions)
+and <em>T_i</em> is <em>i</em>’s total tweet count during the
+observation window. Each <em>p_ij</em> lies in (0, 1] and represents the
+probability that a random tweet from <em>i</em> references
+<em>j</em>.</p>
+<p>The resulting network is <strong>directed</strong> (influence is
+asymmetric: <em>p_ij</em> ? <em>p_ji</em> in general),
+<strong>weighted</strong> (by these probabilities), and
+<strong>unimodal</strong> (Congress members only). All 13,289 edges
+carry a non-zero weight; pairs with zero interactions have no edge.</p>
+<p><strong>Key concepts and definitions used in this
+report:</strong></p>
+<p><strong>Degree and strength.</strong> <strong>Out-degree</strong> is
+the number of distinct members a node directs edges toward;
+<strong>in-degree</strong> is the number directing edges toward it. In a
+weighted network, degree alone does not capture interaction intensity.
+<strong>Strength</strong> (Barrat et al., 2004) addresses this by
+summing edge weights instead of counting edges:</p>
+<p><span
+class="math display"><em>s</em><sub><em>i</em></sub><sup>out</sup> = ∑<sub><em>j</em> ∈ <em>N</em><sub><em>i</em></sub><sup>out</sup></sub><em>p</em><sub><em>i</em><em>j</em></sub>      <em>s</em><sub><em>i</em></sub><sup>in</sup> = ∑<sub><em>j</em> ∈ <em>N</em><sub><em>i</em></sub><sup>in</sup></sub><em>p</em><sub><em>j</em><em>i</em></sub></span></p>
+<p><strong>Out-strength</strong> is the total fraction of a member’s
+tweets directed at other Congress members; <strong>in-strength</strong>
+is the total attention received (it can exceed 1 because it sums
+probabilities from different senders). Out-strength is the primary
+measure of broadcasting effort used throughout this analysis.</p>
+<p><strong>Centrality measures.</strong> <strong>Betweenness
+centrality</strong> measures the fraction of all shortest paths in the
+network that pass through a given node – high betweenness indicates a
+broker or gatekeeper. <strong>Closeness centrality</strong> measures how
+quickly a node can reach all others via shortest paths.
+<strong>Eigenvector centrality</strong> measures influence by accounting
+for the importance of a node’s neighbours – a node connected to other
+well-connected nodes scores higher. <strong>Centralisation</strong> is a
+group-level metric that summarises how much the network’s centrality is
+concentrated in a few nodes: a value near 1 resembles a star; near 0
+means evenly distributed.</p>
+<p><strong>Community and cohesion.</strong> <strong>Homophily</strong>
+is the tendency for nodes to form ties with similar others (e.g. same
+party). <strong>Edge density</strong> is the fraction of possible edges
+that actually exist: edges / (n x (n-1)) for a directed graph. A
+community is <strong>cohesive</strong> if its internal density
+substantially exceeds its external density. <strong>K-core</strong> is
+the maximal subgraph where every node has degree at least k; higher k
+reveals the densest inner core. <strong>Clustering coefficient</strong>
+measures the fraction of a node’s neighbours that are also connected to
+each other.</p>
+<p><strong>Tie properties.</strong> <strong>Reciprocity</strong> is the
+fraction of edges that are mutual (if A directs an edge to B, B also
+directs one to A). <strong>Strong ties</strong> are edges with weight
+above the median; <strong>weak ties</strong> are at or below the median,
+following Granovetter’s (1973) framework. Weak ties are more likely to
+bridge across communities.</p>
+<p><strong>Connectivity.</strong> A <strong>weakly connected component
+(WCC)</strong> is a maximal set of nodes where every node can reach
+every other if edge direction is ignored. A <strong>strongly connected
+component (SCC)</strong> requires mutual reachability following edge
+direction. An <strong>articulation point</strong> is a node whose
+removal would disconnect the graph.</p>
+<p><strong>Viral Centrality (VC)</strong> (Fink et al., Physica A, 2023)
+is a cascade-based influence measure. The dataset authors published the
+algorithm alongside the network data; we ran it on the edge weights to
+compute each node’s VC score. It simulates an <strong>Independent
+Cascade (IC)</strong> process: starting from seed node <em>i</em>, each
+active node <em>u</em> activates each inactive neighbour <em>v</em> with
+probability <em>p_uv</em>; the process repeats until no new activations
+occur. VC is the expected number of nodes activated, normalised by
+network size:</p>
+<p><span class="math display">$$\text{VC}_i \;=\; \frac{1}{N}
+\sum_{j=1}^{N} \Pr(\text{node } j \text{ is activated} \mid \text{seed }
+= i)$$</span></p>
+<p>Because <em>p_ij</em> serves as the cascade transmission probability,
+VC captures <em>network-amplified reach</em> � not just how much a
+member broadcasts, but how far that broadcast ripples through the
+network.</p>
+<p><strong>From edge weights to influence scores.</strong> These three
+quantities build on each other: <em>p_ij</em> measures how much
+attention one member directs at another; summing a member’s outgoing
+<em>p_ij</em> values yields their <strong>out-strength</strong>, which
+captures total direct broadcasting effort; and feeding all <em>p_ij</em>
+values into the Independent Cascade simulation produces
+<strong>VC</strong>, which captures how far that effort ripples through
+the network. In this compact network (average path length 2.35),
+out-strength and VC correlate strongly (r &gt; 0.95), so direct
+broadcasting volume largely determines network-wide reach. The analysis
+uses <em>p_ij</em> for edge-level questions (e.g. within- vs cross-party
+ties in RQ3), out-strength for node-level broadcasting comparisons (RQ2,
+RQ3), and VC for overall influence ranking and removal simulations (RQ2,
+RQ4).</p>
+<hr />
+<h2 id="network-overview">Network Overview</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nodes</td>
+<td>475</td>
+</tr>
+<tr>
+<td>Directed edges</td>
+<td>13,289</td>
+</tr>
+<tr>
+<td>Average in/out-degree</td>
+<td>27.98</td>
+</tr>
+<tr>
+<td>Average edge weight</td>
+<td>0.0058</td>
+</tr>
+<tr>
+<td>Graph density</td>
+<td>0.059</td>
+</tr>
+<tr>
+<td>Reciprocity</td>
+<td>0.46</td>
+</tr>
+<tr>
+<td>Weakly connected components</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Strongly connected components</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Largest SCC size</td>
+<td>469 / 475 (98.7%)</td>
+</tr>
+<tr>
+<td>Diameter (largest SCC)</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Average path length (SCC)</td>
+<td>2.35 hops</td>
+</tr>
+<tr>
+<td>Average clustering coefficient</td>
+<td>0.30</td>
+</tr>
+</tbody>
+</table>
+<p>The network is <strong>weakly connected</strong> and nearly
+<strong>strongly connected</strong> (98.7% of nodes in the largest SCC).
+The short average path (2.35 hops) and high clustering (0.30, vs ~0.06
+expected in a random graph of equivalent size and density) identify this
+as a <strong>small-world network</strong>. A <strong>reciprocity of
+0.46</strong> means nearly half of influence ties are mutual.</p>
+<table>
+<thead>
+<tr>
+<th>Party</th>
+<th>Nodes</th>
+<th>Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Democrat</td>
+<td>205</td>
+<td>43.2%</td>
+</tr>
+<tr>
+<td>Republican</td>
+<td>178</td>
+<td>37.5%</td>
+</tr>
+<tr>
+<td>Other / Unknown</td>
+<td>92</td>
+<td>19.4%</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Chamber</th>
+<th>Nodes</th>
+<th>Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>House</td>
+<td>379</td>
+<td>79.8%</td>
+</tr>
+<tr>
+<td>Senate</td>
+<td>5</td>
+<td>1.1%</td>
+</tr>
+<tr>
+<td>Unknown</td>
+<td>91</td>
+<td>19.2%</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Only 5 nodes have “Senate” metadata; 91 nodes lack chamber
+labels. House/Senate comparisons are therefore omitted from this
+report.</em></p>
+<figure>
+<img src="codes/figures/01_network_overview.png"
+alt="Network Overview" />
+<figcaption aria-hidden="true">Network Overview</figcaption>
+</figure>
+<p><em>Figure 1 – Network overview (node size = out-strength, colour =
+party). The force-directed layout pulls frequently interacting nodes
+closer together, making partisan clusters visually apparent.</em></p>
+<hr />
+<h2 id="research-questions">Research Questions</h2>
+<hr />
+<h3 id="rq1-community-differences">RQ1: Community Differences</h3>
+<p><em>How can Congress members be categorised on Twitter, and how do
+these groups differ from one another? Is the network centralised around
+a few dominant members?</em></p>
+<p>This section addresses four sub-questions: - Q1.1: How can the users
+be categorised? - Q1.2: How do the categories differ from one another? -
+Q1.3: Is the network structurally centralised around a few dominant
+members? - Q1.4: Does the network exhibit high degree centralisation or
+betweenness centralisation?</p>
+<hr />
+<h4 id="q1.1q1.2-categorisation-and-community-differences">Q1.1–Q1.2:
+Categorisation and Community Differences</h4>
+<p><strong>Approach.</strong> We define communities using party
+affiliation as an exogenous attribute, grounded in the concept of
+<strong>homophily</strong>: the tendency for nodes to form ties with
+similar others. Party is the strongest measurable similarity attribute
+in this dataset. We then validate these attribute-defined groups
+structurally.</p>
+<p><strong>Cohesion test.</strong> For each party group, we computed the
+directed edge density <em>within</em> the group and the directed edge
+density <em>between</em> the group and all other nodes. A group is
+considered <strong>cohesive</strong> if its internal density
+substantially exceeds its external density.</p>
+<table>
+<thead>
+<tr>
+<th>Community</th>
+<th>Size</th>
+<th>Internal density</th>
+<th>External density</th>
+<th>Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Democrat</td>
+<td>205</td>
+<td>0.1066</td>
+<td>0.0217</td>
+<td><strong>4.9x</strong></td>
+</tr>
+<tr>
+<td>Republican</td>
+<td>178</td>
+<td>0.1388</td>
+<td>0.0167</td>
+<td><strong>8.3x</strong></td>
+</tr>
+<tr>
+<td>Other</td>
+<td>92</td>
+<td>0.1696</td>
+<td>0.0271</td>
+<td><strong>6.3x</strong></td>
+</tr>
+</tbody>
+</table>
+<p>All three groups pass the cohesion test by a wide margin. Republicans
+have the highest internal density (0.139) and the largest ratio (8.3x),
+indicating the tightest within-group connectivity.</p>
+<p><strong>Per-community structural profiles:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Democrat</th>
+<th>Republican</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nodes</td>
+<td>205</td>
+<td>178</td>
+<td>92</td>
+</tr>
+<tr>
+<td>Internal edges</td>
+<td>4,457</td>
+<td>4,374</td>
+<td>1,420</td>
+</tr>
+<tr>
+<td>Avg degree (directed)</td>
+<td>43.5</td>
+<td>49.1</td>
+<td>30.9</td>
+</tr>
+<tr>
+<td>Avg clustering coefficient</td>
+<td>0.362</td>
+<td>0.457</td>
+<td>0.412</td>
+</tr>
+<tr>
+<td>Avg edge weight</td>
+<td>0.00514</td>
+<td>0.00693</td>
+<td>0.00578</td>
+</tr>
+<tr>
+<td>Reciprocity</td>
+<td>0.462</td>
+<td>0.499</td>
+<td>0.525</td>
+</tr>
+</tbody>
+</table>
+<p>Republicans exhibit higher average degree (49.1 vs 43.5), clustering
+(0.457 vs 0.362), average edge weight (0.0069 vs 0.0051), and
+reciprocity (0.50 vs 0.46) than Democrats. This indicates that
+Republican members interact more frequently and mutually within their
+party block. The Other group, despite being smallest, shows the highest
+reciprocity (0.525), likely reflecting a mix of Senate and independent
+members who actively engage with each other.</p>
+<p><strong>K-core decomposition.</strong> The k-core of a graph is the
+maximal subgraph in which every node has degree at least <em>k</em>.
+Iteratively increasing <em>k</em> peels away less-connected nodes,
+revealing the densest inner core.</p>
+<p>At k=27, <strong>201 nodes</strong> remain:</p>
+<table>
+<thead>
+<tr>
+<th>Party</th>
+<th>In k=27 core</th>
+<th>Share of core</th>
+<th>Share of full network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Democrat</td>
+<td>109</td>
+<td><strong>54.2%</strong></td>
+<td>43.2%</td>
+</tr>
+<tr>
+<td>Republican</td>
+<td>88</td>
+<td><strong>43.8%</strong></td>
+<td>37.5%</td>
+</tr>
+<tr>
+<td>Other</td>
+<td>4</td>
+<td>2.0%</td>
+<td>19.4%</td>
+</tr>
+</tbody>
+</table>
+<p>Democrats are overrepresented in the inner core by 11 percentage
+points (54.2% vs 43.2%), suggesting broader structural coordination
+across a larger group. Republicans, while having higher per-node
+density, concentrate their tight connectivity in a smaller, denser
+cluster rather than a broad backbone.</p>
+<hr />
+<h4 id="q1.3q1.4-network-centralisation">Q1.3–Q1.4: Network
+Centralisation</h4>
+<p><strong>Approach.</strong> The centralisation index measures how much
+the network’s centrality distribution resembles a star graph (maximum
+centralisation = 1) versus a uniform distribution (centralisation = 0).
+We computed three variants on the directed graph.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Centralisation type</th>
+<th>Value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>In-degree</td>
+<td>0.2094</td>
+<td>Moderate: some members attract many more incoming ties than
+average</td>
+</tr>
+<tr>
+<td><strong>Out-degree</strong></td>
+<td><strong>0.3848</strong></td>
+<td><strong>High: a few members broadcast to far more peers than
+average</strong></td>
+</tr>
+<tr>
+<td>Betweenness</td>
+<td>0.0704</td>
+<td>Low: no single node monopolises shortest paths</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Out-degree centralisation (0.38)</strong> is the dominant
+signal: a small number of high-volume broadcasters drive a
+disproportionate share of outgoing ties. The node with the highest
+out-degree is <strong>SpeakerPelosi</strong> (210 outgoing edges),
+followed by <strong>GOPLeader</strong> (195).</p>
+<p><strong>Betweenness centralisation is low (0.07)</strong>, indicating
+that the network is not funnelled through a few brokers. This is
+consistent with the small-world structure: many alternative shortest
+paths exist, so no single node is an essential bottleneck.</p>
+<figure>
+<img src="codes/figures/02_rq1_community.png" alt="RQ1 Community" />
+<figcaption aria-hidden="true">RQ1 Community</figcaption>
+</figure>
+<p><em>Figure 2 – RQ1 summary. (A) Cohesion test: all three party groups
+have internal density far exceeding external density. (B) Community
+profiles: Republicans have higher average degree, clustering, and
+reciprocity. (C) K-core distribution with inner core at k=27. (D)
+Centralisation indices.</em></p>
+<figure>
+<img src="codes/figures/02_rq1_kcore_party.png" alt="K-core Party" />
+<figcaption aria-hidden="true">K-core Party</figcaption>
+</figure>
+<p><em>Figure 3 – K-core inner core (k=27) party composition vs full
+network. Democrats are overrepresented in the inner core (54.2% vs
+43.2%).</em></p>
+<blockquote>
+<p><strong>RQ1 Conclusion:</strong> 1. Party affiliation defines three
+cohesive communities (internal density 4.9–8.3x external), validated
+structurally, not just by metadata labels. 2. Republicans form the
+<strong>tighter</strong> community (higher density, clustering,
+reciprocity, edge weight); Democrats form the <strong>broader</strong>
+structural backbone (overrepresented in the k=27 inner core). 3. The
+network is centralised by <strong>broadcasting volume</strong>
+(out-degree centralisation = 0.38) rather than by
+<strong>brokerage</strong> (betweenness centralisation = 0.07), meaning
+influence spreads through many high-volume posters, not through a few
+gatekeepers.</p>
+</blockquote>
+<hr />
+<h3 id="rq2-focus-on-influence">RQ2: Focus on Influence</h3>
+<p><em>Who are the most influential members, and is influence balanced
+across parties?</em></p>
+<p>This section addresses: - Q2.1: Who are the most influential users,
+and why? - Q2.2: Is there an imbalance of influence where influence is
+not reciprocated? - Q2.3: Are the influential users balanced across
+parties?</p>
+<hr />
+<h4 id="q2.1-most-influential-members">Q2.1: Most Influential
+Members</h4>
+<p><strong>Approach.</strong> We ranked all 475 nodes by six centrality
+measures (degree, closeness, betweenness, eigenvector) plus
+<strong>out-strength</strong> and <strong>in-strength</strong> (weighted
+degree). We also computed <strong>Viral Centrality (VC)</strong>, a
+cascade-based measure from the dataset paper (Fink et al., 2023) that
+uses edge weights as Independent Cascade transmission probabilities and
+estimates how many members a node can activate through the network. VC
+connects to the <strong>cascade model</strong> and <strong>SIR-style
+epidemic thinking</strong>.</p>
+<p><strong>Top 10 by Viral Centrality:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Member</th>
+<th>Party</th>
+<th>VC</th>
+<th>Betweenness</th>
+<th>Out-Strength</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>SteveScalise</td>
+<td>Republican</td>
+<td>1.146</td>
+<td>0.013</td>
+<td>0.935</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SpeakerPelosi</td>
+<td>Democrat</td>
+<td>1.112</td>
+<td>0.041</td>
+<td>0.944</td>
+</tr>
+<tr>
+<td>3</td>
+<td>RepBobbyRush</td>
+<td>Democrat</td>
+<td>1.007</td>
+<td>0.027</td>
+<td>0.869</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GOPLeader</td>
+<td>Republican</td>
+<td>0.980</td>
+<td><strong>0.073</strong></td>
+<td>0.827</td>
+</tr>
+<tr>
+<td>5</td>
+<td>RepJoeWilson</td>
+<td>Republican</td>
+<td>0.810</td>
+<td>0.005</td>
+<td>0.695</td>
+</tr>
+<tr>
+<td>6</td>
+<td>RepJamesComer</td>
+<td>Republican</td>
+<td>0.784</td>
+<td>0.001</td>
+<td>0.603</td>
+</tr>
+<tr>
+<td>7</td>
+<td>RepMarkTakano</td>
+<td>Democrat</td>
+<td>0.781</td>
+<td>0.002</td>
+<td>0.650</td>
+</tr>
+<tr>
+<td>8</td>
+<td>RepBobGood</td>
+<td>Republican</td>
+<td>0.687</td>
+<td>0.001</td>
+<td>0.541</td>
+</tr>
+<tr>
+<td>9</td>
+<td>RepCloudTX</td>
+<td>Republican</td>
+<td>0.674</td>
+<td>0.000</td>
+<td>0.526</td>
+</tr>
+<tr>
+<td>10</td>
+<td>RepFranklin</td>
+<td>Republican</td>
+<td>0.646</td>
+<td>0.017</td>
+<td>0.518</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SteveScalise</strong> (Republican Whip) and
+<strong>SpeakerPelosi</strong> rank 1st and 2nd.
+<strong>GOPLeader</strong> (Kevin McCarthy) holds the highest
+betweenness (0.073) and eigenvector centrality in the network,
+identifying it as a <strong>structural broker</strong> – not the loudest
+broadcaster, but the most strategically positioned node.</p>
+<p><strong>Top 15 by Betweenness</strong> (separate ranking) is led by
+GOPLeader (0.073), SpeakerPelosi (0.041), LeaderHoyer (0.030), and
+RepBobbyRush (0.027). These are members who sit on many shortest paths
+between other pairs, giving them potential gatekeeping power.</p>
+<hr />
+<h4 id="q2.2-influence-imbalance">Q2.2: Influence Imbalance</h4>
+<p><strong>Approach.</strong> We examined whether influence is
+reciprocated by comparing each node’s out-strength (broadcasting)
+against its in-strength (receiving). A node with high out-strength but
+low in-strength is a <strong>unidirectional broadcaster</strong>: it
+pushes influence outward but does not receive proportional engagement in
+return.</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Network reciprocity</td>
+<td>0.46</td>
+</tr>
+<tr>
+<td>Median out/in strength ratio</td>
+<td>1.13</td>
+</tr>
+<tr>
+<td>Correlation (out-strength, in-strength)</td>
+<td><strong>0.15</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>low correlation (r = 0.15)</strong> between out-strength
+and in-strength reveals a fundamental asymmetry: members who broadcast
+heavily are <em>not</em> the same members who receive the most
+influence. For example, SpeakerPelosi has out-strength 0.94 but
+in-strength only 0.24 – a strong broadcaster who receives relatively
+little directed engagement. Conversely, GOPLeader has in-strength 1.65
+(highest in the network) but out-strength 0.83.</p>
+<hr />
+<h4 id="q2.3-party-balance-among-top-influencers">Q2.3: Party Balance
+Among Top Influencers</h4>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Democrat</th>
+<th>Republican</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top 10 by VC</td>
+<td>3 (30%)</td>
+<td>7 (70%)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Top 20 by VC</td>
+<td>6 (30%)</td>
+<td>13 (65%)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Top 50 by VC</td>
+<td>16 (32%)</td>
+<td>28 (56%)</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>Republicans are consistently overrepresented in top influence tiers.
+Democrats make up 43.2% of the network but only 30% of the top 10 and
+32% of the top 50 by Viral Centrality. This disparity reflects the
+Republican community’s higher per-node density and edge weight, which
+amplify cascade propagation within their tighter cluster.</p>
+<figure>
+<img src="codes/figures/03_rq2_influence.png" alt="RQ2 Influence" />
+<figcaption aria-hidden="true">RQ2 Influence</figcaption>
+</figure>
+<p><em>Figure 4 – RQ2 summary. (A) Top 15 by Viral Centrality, coloured
+by party. (B) Out-strength vs in-strength scatter: low correlation
+(r=0.15) reveals broadcasting/receiving asymmetry. (C) Top 15 by
+betweenness centrality. (D) Party representation across top-N
+tiers.</em></p>
+<blockquote>
+<p><strong>RQ2 Conclusion:</strong> 1. <strong>Top influencers mirror
+real-world leadership roles</strong>: party whips, speakers, and floor
+leaders dominate both VC and betweenness rankings, validating that
+network centrality reflects institutional power. 2. <strong>Influence is
+asymmetric</strong>: out-strength and in-strength correlate weakly
+(r=0.15). High-volume broadcasters (SpeakerPelosi, SteveScalise) are not
+necessarily the most-engaged-with members (GOPLeader has the highest
+in-strength). 3. <strong>Republicans dominate top influence
+tiers</strong> (70% of top 10 by VC), despite being 37.5% of the
+network. Their tighter community structure amplifies cascade spread per
+node.</p>
+</blockquote>
+<hr />
+<h3 id="rq3-cross-party-influence">RQ3: Cross-Party Influence</h3>
+<p><em>To what extent does influence cross party lines, and who bridges
+the divide?</em></p>
+<p>This section addresses: - Q3.1: To what extent are there cross-party
+influences? - Q3.2: Are there critical bridging nodes that act as
+articulation points? - Q3.3: Is there stronger influence within the same
+party?</p>
+<hr />
+<h4 id="q3.1-q3.3-within-party-vs-cross-party-influence">Q3.1 + Q3.3:
+Within-Party vs Cross-Party Influence</h4>
+<p><strong>Approach.</strong> We classified every directed edge as
+within-party or cross-party and computed shares by both edge count and
+total edge weight. We also classified edges into <strong>strong
+ties</strong> (weight above the median, 0.0037) and <strong>weak
+ties</strong> (weight at or below the median), following the strong/weak
+tie framework (Granovetter, 1973).</p>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Within-party</th>
+<th>Cross-party</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>By edge count</td>
+<td><strong>77.1%</strong> (10,251)</td>
+<td>22.9% (3,038)</td>
+</tr>
+<tr>
+<td>By edge weight</td>
+<td><strong>79.5%</strong></td>
+<td>20.5%</td>
+</tr>
+<tr>
+<td>Strong ties</td>
+<td><strong>80.0%</strong> within</td>
+<td>20.0% cross</td>
+</tr>
+<tr>
+<td>Weak ties</td>
+<td>74.3% within</td>
+<td>25.7% cross</td>
+</tr>
+</tbody>
+</table>
+<p>The network exhibits strong <strong>homophily</strong>: 77–80% of all
+influence stays within party. Strong ties are even more partisan (80%
+within-party), consistent with the prediction from <strong>Granovetter’s
+strength of weak ties theory</strong> that strong ties cluster inside
+communities while weak ties are more likely to bridge across groups.</p>
+<p><strong>Party-to-party directed flow (Democrat and Republican
+only):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Target</th>
+<th>Edges</th>
+<th>Share of D/R edges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Democrat</td>
+<td>Democrat</td>
+<td>4,457</td>
+<td>44.7%</td>
+</tr>
+<tr>
+<td>Republican</td>
+<td>Republican</td>
+<td>4,374</td>
+<td>43.9%</td>
+</tr>
+<tr>
+<td>Democrat</td>
+<td>Republican</td>
+<td>589</td>
+<td>5.9%</td>
+</tr>
+<tr>
+<td>Republican</td>
+<td>Democrat</td>
+<td>540</td>
+<td>5.4%</td>
+</tr>
+</tbody>
+</table>
+<p>Cross-party flow is roughly symmetric: Democrats send 589 edges to
+Republicans; Republicans send 540 to Democrats.</p>
+<hr />
+<h4 id="q3.2-bridging-nodes">Q3.2: Bridging Nodes</h4>
+<p><strong>Approach.</strong> We checked for <strong>articulation
+points</strong>: nodes whose removal would disconnect the undirected
+graph. We also identified <strong>cross-party bridgers</strong> by
+ranking nodes on total cross-party edge weight (sum of incoming +
+outgoing weights to/from other parties), combined with betweenness
+centrality.</p>
+<p><strong>Articulation points: 0.</strong> The network has no single
+point of failure – it remains connected even if any individual node is
+removed. This confirms structural resilience.</p>
+<p><strong>Top 5 cross-party bridgers:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Member</th>
+<th>Party</th>
+<th>Cross-party weight</th>
+<th>Betweenness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>janschakowsky</td>
+<td>Other</td>
+<td>0.571</td>
+<td>0.004</td>
+</tr>
+<tr>
+<td>2</td>
+<td>RepJoeWilson</td>
+<td>Republican</td>
+<td>0.530</td>
+<td>0.005</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SpeakerPelosi</td>
+<td>Democrat</td>
+<td>0.371</td>
+<td>0.041</td>
+</tr>
+<tr>
+<td>4</td>
+<td>SenWarren</td>
+<td>Other</td>
+<td>0.335</td>
+<td>0.008</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SenatorCardin</td>
+<td>Other</td>
+<td>0.317</td>
+<td>0.004</td>
+</tr>
+</tbody>
+</table>
+<p>“Other”-labelled members (often Senators or independents) appear
+prominently because they bridge between both major parties by
+definition. Among clearly partisan members,
+<strong>RepJoeWilson</strong> (Republican) carries the most cross-party
+weight, and <strong>SpeakerPelosi</strong> (Democrat) combines high
+cross-party weight with high betweenness, making her the most
+structurally significant Democrat bridge.</p>
+<figure>
+<img src="codes/figures/04_rq3_cross_party.png" alt="RQ3 Cross-Party" />
+<figcaption aria-hidden="true">RQ3 Cross-Party</figcaption>
+</figure>
+<p><em>Figure 5 – RQ3 summary. (A) Party-to-party edge count heatmap
+(Democrat/Republican only). (B) Homophily: 77–80% of ties stay within
+party by both count and weight. (C) Strong ties are more partisan (80%
+within) than weak ties (74%). (D) Top 10 cross-party bridgers by total
+cross-party edge weight.</em></p>
+<hr />
+<h4 id="egocentric-illustration-two-modes-of-influence">Egocentric
+Illustration: Two Modes of Influence</h4>
+<p>To make the cross-party dynamics concrete, we compared the ego
+networks of the top Republican influencer
+(<strong>SteveScalise</strong>) and the top Democrat influencer
+(<strong>SpeakerPelosi</strong>).</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>SteveScalise (R)</th>
+<th>SpeakerPelosi (D)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unique neighbors</td>
+<td>102</td>
+<td>214</td>
+</tr>
+<tr>
+<td>Out-degree</td>
+<td>89</td>
+<td>210</td>
+</tr>
+<tr>
+<td>In-degree</td>
+<td>63</td>
+<td>51</td>
+</tr>
+<tr>
+<td>Out-strength</td>
+<td>0.935</td>
+<td>0.944</td>
+</tr>
+<tr>
+<td>In-strength</td>
+<td>0.460</td>
+<td>0.240</td>
+</tr>
+<tr>
+<td>Same-party neighbors</td>
+<td><strong>94.1%</strong></td>
+<td>57.5%</td>
+</tr>
+<tr>
+<td>Cross-party neighbors</td>
+<td>5.9%</td>
+<td><strong>42.5%</strong></td>
+</tr>
+<tr>
+<td>Ego network density</td>
+<td><strong>0.194</strong></td>
+<td>0.099</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SteveScalise</strong> operates as an <strong>intra-party
+amplifier</strong>: 94% of his neighbors are Republican, and his ego
+network is dense (0.194), meaning his contacts are also heavily
+connected to each other. This creates an echo chamber where information
+circulates rapidly within a tight cluster.</p>
+<p><strong>SpeakerPelosi</strong> operates as a <strong>cross-party
+hub</strong>: 42.5% of her neighbors are from other parties, and her ego
+network is less dense (0.099), reflecting a broader but sparser web of
+connections. She broadcasts to more unique members (210 out-degree vs
+89) but receives less engagement (in-strength 0.24 vs 0.46).</p>
+<figure>
+<img src="codes/figures/06_egocentric.png" alt="Egocentric" />
+<figcaption aria-hidden="true">Egocentric</figcaption>
+</figure>
+<p><em>Figure 6 – Egocentric network comparison. (A-B) Ego network
+visualisations with edge thickness proportional to weight. (C-D)
+Neighbor party composition: Scalise’s network is 94% Republican;
+Pelosi’s spans 57.5% Democrat and 42.5% other parties.</em></p>
+<blockquote>
+<p><strong>RQ3 Conclusion:</strong> 1. <strong>The network is a partisan
+echo chamber</strong>: 77–80% of all influence stays within party, and
+strong ties are even more homophilous (80%). The Scalise ego network
+(94% same-party, density 0.194) typifies this intra-party clustering. 2.
+<strong>No articulation points exist</strong> – the network is
+structurally resilient, but cross-party flow depends on a small set of
+bridgers (RepJoeWilson, SpeakerPelosi). Pelosi’s ego network (42.5%
+cross-party) illustrates the cross-party hub role. 3. Cross-party flow
+is roughly <strong>symmetric</strong> between the two parties (589 vs
+540 edges), suggesting neither side is significantly more
+outward-reaching than the other.</p>
+</blockquote>
+<hr />
+<h3 id="rq4-what-if-analysis">RQ4: What-If Analysis</h3>
+<p><em>What if we remove the top influencers? How does the network
+structure change, and what does this imply for each party?</em></p>
+<p><strong>Approach.</strong> We simulated three removal scenarios at 5,
+10, and 15 nodes: - <strong>Scenario A</strong>: Remove top N
+influencers overall (by Viral Centrality). - <strong>Scenario
+B</strong>: Remove top N Democrat influencers only. - <strong>Scenario
+C</strong>: Remove top N Republican influencers only.</p>
+<p>After each removal, we measured: largest SCC fraction, average path
+length, clustering coefficient, and density.</p>
+<p><strong>Key results (removing top 15):</strong></p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Baseline</th>
+<th>Remove 15 overall</th>
+<th>Remove 15 Dem</th>
+<th>Remove 15 Rep</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edges</td>
+<td>13,289</td>
+<td>11,668 (-12.2%)</td>
+<td>11,947 (-10.1%)</td>
+<td>12,060 (-9.2%)</td>
+</tr>
+<tr>
+<td>Largest SCC fraction</td>
+<td>98.7%</td>
+<td>98.5%</td>
+<td>98.5%</td>
+<td>98.7%</td>
+</tr>
+<tr>
+<td>Avg path length</td>
+<td>2.35</td>
+<td>2.41 (+2.6%)</td>
+<td>2.38 (+1.3%)</td>
+<td>2.39 (+1.7%)</td>
+</tr>
+<tr>
+<td>Avg clustering</td>
+<td>0.301</td>
+<td>0.277 (-8.1%)</td>
+<td>0.287 (-4.7%)</td>
+<td>0.289 (-4.1%)</td>
+</tr>
+<tr>
+<td>Density</td>
+<td>0.059</td>
+<td>0.055 (-6.3%)</td>
+<td>0.057 (-4.1%)</td>
+<td>0.057 (-3.2%)</td>
+</tr>
+<tr>
+<td>SCC count</td>
+<td>7</td>
+<td>8</td>
+<td>8</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Observations:</strong></p>
+<ol type="1">
+<li><p><strong>The network is remarkably resilient.</strong> Even
+removing the top 15 influencers reduces the largest SCC by only 0.2
+percentage points. No scenario fragments the network into disconnected
+communities.</p></li>
+<li><p><strong>Removing top overall influencers has the strongest
+effect</strong> on clustering (-8.1%) and density (-6.3%), because these
+high-VC nodes have the most edges. But the <em>structural backbone</em>
+(SCC, path length) barely changes.</p></li>
+<li><p><strong>Removing top Democrats has a slightly larger edge
+impact</strong> (-10.1%) than removing top Republicans (-9.2%) for the
+same number of nodes, consistent with Democrats’ broader connectivity
+(higher out-degree, more diverse ego networks). However, removing
+Democrats causes the <strong>diameter to decrease</strong> from 6 to 5
+(the remaining network is more compact), while removing Republicans
+preserves the diameter at 6.</p></li>
+<li><p><strong>Removing Republicans causes slightly less disruption
+overall</strong>, reflecting their tighter, more redundant internal
+structure: when one hub is removed, many alternative high-density paths
+exist within the Republican cluster.</p></li>
+</ol>
+<p><strong>Removed members:</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Top 5 removed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Overall</td>
+<td>SteveScalise, SpeakerPelosi, RepBobbyRush, GOPLeader,
+RepJoeWilson</td>
+</tr>
+<tr>
+<td>Top Dem</td>
+<td>SpeakerPelosi, RepBobbyRush, RepMarkTakano, RepLucyMcBath,
+RepCori</td>
+</tr>
+<tr>
+<td>Top Rep</td>
+<td>SteveScalise, GOPLeader, RepJoeWilson, RepJamesComer,
+RepBobGood</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img src="codes/figures/05_rq4_whatif.png" alt="RQ4 What-If" />
+<figcaption aria-hidden="true">RQ4 What-If</figcaption>
+</figure>
+<p><em>Figure 7 – RQ4 summary. Percentage change from baseline across
+six metrics and six removal scenarios. Negative values indicate
+degradation. Edges and clustering suffer the most; SCC fraction barely
+changes.</em></p>
+<figure>
+<img src="codes/figures/05_rq4_whatif_comparison.png"
+alt="RQ4 Dem vs Rep" />
+<figcaption aria-hidden="true">RQ4 Dem vs Rep</figcaption>
+</figure>
+<p><em>Figure 8 – Democrat vs Republican removal impact at each level
+(5, 10, 15 nodes). Removing Democrats causes more edge loss but
+increases reciprocity; removing Republicans causes less edge loss but
+decreases reciprocity.</em></p>
+<blockquote>
+<p><strong>RQ4 Conclusion:</strong> 1. <strong>No single set of removals
+fragments the network</strong>, confirming that Congressional Twitter
+influence is distributed, not hub-dependent. 2. Removing <strong>top
+Democrats</strong> causes more edge loss per node (broader
+connectivity), while removing <strong>top Republicans</strong> causes
+less disruption (tighter redundancy). Neither party’s network collapses.
+3. <strong>Strategic implication</strong>: Both parties should invest in
+developing <em>multiple</em> influential voices rather than relying on a
+few leaders, as the network’s distributed structure means the loss of
+any individual has limited structural impact.</p>
+</blockquote>
+<hr />
+<h2 id="implications">Implications</h2>
+<p><strong>1. Echo chambers limit cross-partisan discourse.</strong></p>
+<p>With 77–80% of influence staying within party, Congressional Twitter
+functions primarily as an intra-party amplification system. Platform
+designers could identify members with low cross-party exposure and
+prioritise cross-partisan content recommendations. The bridging nodes
+identified in RQ3 (RepJoeWilson, SpeakerPelosi) represent the most
+efficient leverage points for increasing cross-partisan exposure.</p>
+<p><strong>2. Two types of influence require different communication
+strategies.</strong></p>
+<p>High-VC nodes (SteveScalise, RepBobbyRush) are powerful
+intra-community amplifiers but primarily reach their own party.
+High-betweenness nodes (GOPLeader, SpeakerPelosi) sit on cross-community
+shortest paths. A <strong>two-stage communication strategy</strong>
+would maximise reach: seed a message via a high-betweenness broker to
+cross party lines, then let high-VC nodes amplify within each
+community.</p>
+<p><strong>3. Distributed resilience has strategic implications for
+party organisations.</strong></p>
+<p>The what-if analysis shows neither party’s network collapses when
+leaders are removed. This distributed structure means that parties
+should invest in cultivating multiple influential voices across their
+caucus. Over-reliance on a single spokesperson creates reputational risk
+without corresponding structural advantage.</p>
+<hr />
+<h2 id="conclusion-and-limitations">Conclusion and Limitations</h2>
+<h3 id="summary-of-findings">Summary of Findings</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Research Question</th>
+<th>Key Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RQ1: Community</strong></td>
+<td>Three cohesive party communities (4.9–8.3x density ratio).
+Republicans: tighter per-node connectivity. Democrats: broader
+inner-core presence. Out-degree centralisation (0.38) dominates over
+betweenness (0.07).</td>
+</tr>
+<tr>
+<td><strong>RQ2: Influence</strong></td>
+<td>Top influencers mirror real-world leadership. VC and out-strength
+are weakly correlated with in-strength (r=0.15). Republicans hold 70% of
+top-10 VC positions.</td>
+</tr>
+<tr>
+<td><strong>RQ3: Cross-party</strong></td>
+<td>77–80% of edges are within-party. Strong ties are even more partisan
+(80%). No articulation points. Small set of bridgers connects
+communities.</td>
+</tr>
+<tr>
+<td><strong>RQ4: What-if</strong></td>
+<td>Network resilient to targeted removal. Removing 15 top nodes reduces
+edges by 9–12% but SCC barely changes. Both parties show structural
+redundancy.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="limitations">Limitations</h3>
+<ol type="1">
+<li><strong>Temporal snapshot</strong>: 4 months of 2022; patterns may
+shift during elections or major legislative votes.</li>
+<li><strong>Activity bias</strong>: members tweeting fewer than 100
+times are excluded, over-representing highly active voices.</li>
+<li><strong>No content analysis</strong>: edge weights capture
+<em>frequency</em> of interaction, not <em>nature</em> – a critical
+quote-tweet is treated identically to an endorsement.</li>
+<li><strong>Missing metadata</strong>: 92 nodes lack party/chamber
+labels, grouped as “Other”. This inflates the Other community and may
+obscure some cross-party dynamics.</li>
+<li><strong>Unweighted betweenness and closeness</strong>: these
+centrality measures were computed on hop count, not weighted distances,
+because the edge weights represent probabilities (higher = stronger),
+not distances. Inverting weights to use as distances would change the
+interpretation. We note this as a methodological choice, not an
+oversight.</li>
+</ol>
+<hr />
+<h2 id="reproducibility">Reproducibility</h2>
+<p>The analysis was conducted using Python 3.11 with NetworkX,
+matplotlib, numpy, and openpyxl. All computations were performed
+programmatically to ensure reproducibility.</p>
+<p>Scripts are located in <code>codes/</code>. Run in order:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;group project/codes&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> 01_network_overview.py</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> 02_rq1_community.py</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> 03_rq2_influence.py</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> 04_rq3_cross_party.py</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> 05_rq4_whatif.py</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> 06_egocentric.py</span></code></pre></div>
+<p>Figures are saved to <code>codes/figures/</code> and results to
+<code>codes/results/</code>.</p>
+<hr />
+<h2 id="references">References</h2>
+<p>Barrat, A., Barth-lemy, M., Pastor-Satorras, R., &amp; Vespignani, A.
+(2004). The architecture of complex weighted networks. <em>Proceedings
+of the National Academy of Sciences, 101</em>(11), 3747-3752.</p>
+<p>Fink, C. G., Omodt, N., Zinnecker, S., &amp; Sprint, G. (2023). A
+Congressional Twitter network dataset quantifying pairwise probability
+of influence. <em>Data in Brief, 50</em>, 109521.</p>
+<p>Fink, C., Fullin, K., Gutierrez, G., Omodt, N., Zinnecker, S.,
+Sprint, G., &amp; McCulloch, S. (2023). A centrality measure for
+quantifying spread on weighted, directed networks. <em>Physica A,
+626</em>, 129083.</p>
+<p>Granovetter, M. S. (1973). The strength of weak ties. <em>American
+Journal of Sociology, 78</em>(6), 1360–1380.</p>
+<p>Stanford University. (n.d.). <em>SNAP: Network datasets: Twitter
+Interaction Network for the US Congress.</em>
+https://snap.stanford.edu/data/congress-twitter.html</p>
+<hr />
+<h2 id="declaration-of-ai-tool-usage">Declaration of AI Tool Usage</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>AI Tool</th>
+<th>How it was used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI language model (large language model assistant)</td>
+<td>Assisted with writing Python analysis scripts, structuring the
+Markdown report, and generating figure-production code. All analytical
+interpretations, research questions, and conclusions were reviewed and
+verified by the group.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-a">Appendix A</h2>
+<h3 id="full-centrality-table-top-20">Full Centrality Table (Top
+20)</h3>
+<p>Full 475-node table available at:
+<code>codes/results/rq2_centrality_full.csv</code></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Username</th>
+<th>Party</th>
+<th>Out-Deg</th>
+<th>In-Deg</th>
+<th>Out-Str</th>
+<th>In-Str</th>
+<th>Betweenness</th>
+<th>Closeness</th>
+<th>Eigenvector</th>
+<th>VC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SteveScalise</td>
+<td>Republican</td>
+<td>187</td>
+<td>118</td>
+<td>0.935</td>
+<td>0.642</td>
+<td>0.013</td>
+<td>0.479</td>
+<td>0.120</td>
+<td>1.146</td>
+</tr>
+<tr>
+<td>SpeakerPelosi</td>
+<td>Democrat</td>
+<td>210</td>
+<td>94</td>
+<td>0.944</td>
+<td>0.278</td>
+<td>0.041</td>
+<td>0.479</td>
+<td>0.094</td>
+<td>1.112</td>
+</tr>
+<tr>
+<td>RepBobbyRush</td>
+<td>Democrat</td>
+<td>173</td>
+<td>113</td>
+<td>0.869</td>
+<td>0.374</td>
+<td>0.027</td>
+<td>0.464</td>
+<td>0.111</td>
+<td>1.007</td>
+</tr>
+<tr>
+<td>GOPLeader</td>
+<td>Republican</td>
+<td>195</td>
+<td>127</td>
+<td>0.827</td>
+<td>1.648</td>
+<td>0.073</td>
+<td>0.476</td>
+<td>0.267</td>
+<td>0.980</td>
+</tr>
+<tr>
+<td>RepJoeWilson</td>
+<td>Republican</td>
+<td>153</td>
+<td>82</td>
+<td>0.695</td>
+<td>0.255</td>
+<td>0.005</td>
+<td>0.459</td>
+<td>0.085</td>
+<td>0.810</td>
+</tr>
+<tr>
+<td>RepJamesComer</td>
+<td>Republican</td>
+<td>140</td>
+<td>76</td>
+<td>0.603</td>
+<td>0.302</td>
+<td>0.001</td>
+<td>0.451</td>
+<td>0.074</td>
+<td>0.784</td>
+</tr>
+<tr>
+<td>RepMarkTakano</td>
+<td>Democrat</td>
+<td>151</td>
+<td>107</td>
+<td>0.650</td>
+<td>0.271</td>
+<td>0.002</td>
+<td>0.455</td>
+<td>0.073</td>
+<td>0.781</td>
+</tr>
+<tr>
+<td>RepBobGood</td>
+<td>Republican</td>
+<td>133</td>
+<td>74</td>
+<td>0.541</td>
+<td>0.197</td>
+<td>0.001</td>
+<td>0.447</td>
+<td>0.066</td>
+<td>0.687</td>
+</tr>
+<tr>
+<td>RepCloudTX</td>
+<td>Republican</td>
+<td>130</td>
+<td>68</td>
+<td>0.526</td>
+<td>0.217</td>
+<td>0.000</td>
+<td>0.446</td>
+<td>0.066</td>
+<td>0.674</td>
+</tr>
+<tr>
+<td>RepFranklin</td>
+<td>Republican</td>
+<td>138</td>
+<td>127</td>
+<td>0.518</td>
+<td>0.830</td>
+<td>0.017</td>
+<td>0.453</td>
+<td>0.130</td>
+<td>0.646</td>
+</tr>
+<tr>
+<td>RepLucyMcBath</td>
+<td>Democrat</td>
+<td>135</td>
+<td>90</td>
+<td>0.459</td>
+<td>0.342</td>
+<td>0.004</td>
+<td>0.445</td>
+<td>0.084</td>
+<td>0.581</td>
+</tr>
+<tr>
+<td>RepSpartz</td>
+<td>Republican</td>
+<td>109</td>
+<td>81</td>
+<td>0.415</td>
+<td>0.413</td>
+<td>0.004</td>
+<td>0.437</td>
+<td>0.074</td>
+<td>0.537</td>
+</tr>
+<tr>
+<td>SenMikeLee</td>
+<td>Other</td>
+<td>110</td>
+<td>68</td>
+<td>0.383</td>
+<td>0.185</td>
+<td>0.002</td>
+<td>0.438</td>
+<td>0.052</td>
+<td>0.522</td>
+</tr>
+<tr>
+<td>RepCori</td>
+<td>Democrat</td>
+<td>114</td>
+<td>79</td>
+<td>0.424</td>
+<td>0.233</td>
+<td>0.003</td>
+<td>0.442</td>
+<td>0.067</td>
+<td>0.516</td>
+</tr>
+<tr>
+<td>VernBuchanan</td>
+<td>Republican</td>
+<td>107</td>
+<td>77</td>
+<td>0.375</td>
+<td>0.319</td>
+<td>0.008</td>
+<td>0.437</td>
+<td>0.070</td>
+<td>0.510</td>
+</tr>
+<tr>
+<td>PatrickMcHenry</td>
+<td>Republican</td>
+<td>106</td>
+<td>91</td>
+<td>0.377</td>
+<td>0.527</td>
+<td>0.009</td>
+<td>0.436</td>
+<td>0.089</td>
+<td>0.500</td>
+</tr>
+<tr>
+<td>RepJohnKatko</td>
+<td>Republican</td>
+<td>107</td>
+<td>78</td>
+<td>0.358</td>
+<td>0.303</td>
+<td>0.004</td>
+<td>0.436</td>
+<td>0.063</td>
+<td>0.476</td>
+</tr>
+<tr>
+<td>RepRichHudson</td>
+<td>Republican</td>
+<td>101</td>
+<td>113</td>
+<td>0.354</td>
+<td>0.722</td>
+<td>0.013</td>
+<td>0.435</td>
+<td>0.105</td>
+<td>0.468</td>
+</tr>
+<tr>
+<td>rosadelauro</td>
+<td>Democrat</td>
+<td>110</td>
+<td>68</td>
+<td>0.395</td>
+<td>0.198</td>
+<td>0.002</td>
+<td>0.441</td>
+<td>0.061</td>
+<td>0.466</td>
+</tr>
+<tr>
+<td>replouiegohmert</td>
+<td>Republican</td>
+<td>93</td>
+<td>94</td>
+<td>0.329</td>
+<td>0.605</td>
+<td>0.004</td>
+<td>0.429</td>
+<td>0.081</td>
+<td>0.437</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
