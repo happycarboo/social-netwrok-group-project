@@ -15,7 +15,8 @@ import networkx as nx
 import numpy as np
 
 from utils import (load_graph, load_users, party_of, username_of,
-                   PARTY_COLORS, PARTIES, FIG_DIR, RES_DIR, save_fig)
+                   PARTY_COLORS, PARTIES, FIG_DIR, RES_DIR, save_fig,
+                   CLR_DEM, CLR_REP, CLR_DEM_LIGHT, CLR_REP_LIGHT)
 
 
 def main():
@@ -68,7 +69,7 @@ def main():
     print(f"\n  Dem -> Rep: {d2r_c} edges, weight={d2r_w:.3f}")
     print(f"  Rep -> Dem: {r2d_c} edges, weight={r2d_w:.3f}")
 
-    # Strong vs weak ties analysis (L6)
+    # Strong vs weak ties analysis
     all_weights = [d["weight"] for _, _, d in G.edges(data=True)]
     median_w = float(np.median(all_weights))
     print(f"\n  Median edge weight (strong/weak threshold): {median_w:.6f}")
@@ -211,8 +212,8 @@ def main():
     cross_vals = [cross_count / total_count * 100, cross_weight / total_weight * 100]
     x = np.arange(len(categories))
     bw = 0.35
-    b1 = ax.bar(x - bw / 2, within_vals, bw, label="Within-party", color="steelblue")
-    b2 = ax.bar(x + bw / 2, cross_vals, bw, label="Cross-party", color="tomato")
+    b1 = ax.bar(x - bw / 2, within_vals, bw, label="Within-party", color=CLR_DEM)
+    b2 = ax.bar(x + bw / 2, cross_vals, bw, label="Cross-party", color=CLR_REP)
     ax.set_xticks(x)
     ax.set_xticklabels(categories)
     ax.set_ylabel("Percentage (%)")
@@ -229,10 +230,10 @@ def main():
     ax = axes[1, 0]
     tie_cats = ["Strong\nWithin", "Strong\nCross", "Weak\nWithin", "Weak\nCross"]
     tie_vals = [strong_within, strong_cross, weak_within, weak_cross]
-    tie_colors = ["steelblue", "tomato", "#7fb3d8", "#f0a0a0"]
+    tie_colors = [CLR_DEM, CLR_REP, CLR_DEM_LIGHT, CLR_REP_LIGHT]
     bars = ax.bar(tie_cats, tie_vals, color=tie_colors, edgecolor="white")
     ax.set_ylabel("Number of edges")
-    ax.set_title("(C) Strong vs Weak Ties (L6)")
+    ax.set_title("(C) Strong vs Weak Ties")
     for bar, v in zip(bars, tie_vals):
         pct = v / total_count * 100
         ax.text(bar.get_x() + bar.get_width() / 2, v + 50,

@@ -16,7 +16,8 @@ import numpy as np
 from matplotlib import cm
 
 from utils import (load_graph, load_users, party_of, username_of,
-                   PARTY_COLORS, PARTIES, FIG_DIR, RES_DIR, save_fig)
+                   PARTY_COLORS, PARTIES, FIG_DIR, RES_DIR, save_fig,
+                   CLR_DEM, CLR_REP, CLR_NEUTRAL, CLR_DEM_LIGHT, CLR_REP_LIGHT)
 
 
 def load_layout():
@@ -108,7 +109,7 @@ def main():
         w.writerows(comm_stats)
 
     # --- K-core decomposition ---
-    print("\n  K-core decomposition (L5):")
+    print("\n  K-core decomposition:")
     core_numbers = nx.core_number(G_ud)
     max_core = max(core_numbers.values())
     inner_core = [n for n, k in core_numbers.items() if k == max_core]
@@ -133,7 +134,7 @@ def main():
     # Q1.3 + Q1.4  Centralisation
     # =====================================================================
     print("\n" + "=" * 60)
-    print("Q1.3-1.4: Network centralisation (Freeman, L3)")
+    print("Q1.3-1.4: Network centralisation (Freeman)")
     print("=" * 60)
 
     in_deg = dict(G.in_degree())
@@ -176,9 +177,9 @@ def main():
     x = np.arange(len(density_results))
     w_bar = 0.35
     ax.bar(x - w_bar / 2, [r["internal_density"] for r in density_results],
-           w_bar, label="Internal density", color="steelblue")
+           w_bar, label="Internal density", color=CLR_DEM)
     ax.bar(x + w_bar / 2, [r["external_density"] for r in density_results],
-           w_bar, label="External density", color="tomato")
+           w_bar, label="External density", color=CLR_REP)
     ax.set_xticks(x)
     ax.set_xticklabels([f"{r['community']}\n(n={r['size']})" for r in density_results])
     ax.set_ylabel("Edge density (directed)")
@@ -207,7 +208,7 @@ def main():
     ax = axes[1, 0]
     core_dist = Counter(core_numbers.values())
     ks = sorted(core_dist.keys())
-    ax.bar(ks, [core_dist[k] for k in ks], color="steelblue", edgecolor="white")
+    ax.bar(ks, [core_dist[k] for k in ks], color=CLR_NEUTRAL, edgecolor="white")
     ax.set_xlabel("K-core number")
     ax.set_ylabel("Number of nodes")
     ax.set_title(f"(C) K-core Distribution (inner core k={max_core})")
@@ -219,10 +220,10 @@ def main():
     ax = axes[1, 1]
     cent_labels = ["In-Degree", "Out-Degree", "Betweenness"]
     cent_vals = [in_cent, out_cent, betw_cent]
-    colors = ["#1f77b4", "#ff7f0e", "#2ca02c"]
+    colors = [CLR_DEM, CLR_REP, CLR_NEUTRAL]
     bars = ax.bar(cent_labels, cent_vals, color=colors, width=0.5)
     ax.set_ylabel("Freeman Centralisation Index")
-    ax.set_title("(D) Network Centralisation (L3)")
+    ax.set_title("(D) Network Centralisation (Freeman)")
     ax.set_ylim(0, max(cent_vals) * 1.3)
     for bar, v in zip(bars, cent_vals):
         ax.text(bar.get_x() + bar.get_width() / 2, v + 0.002,

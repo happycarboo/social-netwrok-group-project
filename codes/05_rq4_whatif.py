@@ -13,7 +13,8 @@ import networkx as nx
 import numpy as np
 
 from utils import (load_graph, load_users, party_of, username_of,
-                   PARTY_COLORS, PARTIES, FIG_DIR, RES_DIR, save_fig)
+                   PARTY_COLORS, PARTIES, FIG_DIR, RES_DIR, save_fig,
+                   CLR_DEM, CLR_REP, CLR_DEM_LIGHT, CLR_REP_LIGHT, CLR_NEUTRAL)
 
 
 def network_stats(G):
@@ -149,47 +150,77 @@ def main():
         json.dump(all_data, f, indent=2)
 
     # =====================================================================
-    # FIGURES - 2x2 grid comparing key metrics across scenarios
+    # FIGURES - % change from baseline (much easier to read)
     # =====================================================================
     print("\nGenerating RQ4 figures...")
 
     metrics_to_plot = [
-        ("largest_scc_frac", "Largest SCC Fraction", "(A)"),
-        ("avg_path_length", "Avg Path Length (SCC)", "(B)"),
-        ("avg_clustering", "Avg Clustering Coefficient", "(C)"),
-        ("density", "Network Density", "(D)"),
+        ("edges", "Edges"),
+        ("density", "Density"),
+        ("avg_clustering", "Avg Clustering"),
+        ("avg_path_length", "Avg Path Length"),
+        ("largest_scc_frac", "Largest SCC Frac."),
+        ("reciprocity", "Reciprocity"),
     ]
 
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    def pct_change(val, base):
+        return (val - base) / abs(base) * 100 if base != 0 else 0
 
-    for idx, (metric, label, panel) in enumerate(metrics_to_plot):
-        ax = axes[idx // 2, idx % 2]
+    # --- Figure 1: Grouped bar chart of % change ---
+    fig, ax = plt.subplots(figsize=(13, 6))
 
-        # x-axis: removal counts
-        x = np.arange(len(remove_counts))
-        bw = 0.25
+    n_metrics = len(metrics_to_plot)
+    x = np.arange(n_metrics)
+    bw = 0.12
+    groups = [
+        ("top_5_overall",  "Remove top 5 overall",  CLR_NEUTRAL, -2.5),
+        ("top_5_dem",      "Remove top 5 Dem",       CLR_DEM, -1.5),
+        ("top_5_rep",      "Remove top 5 Rep",       CLR_REP, -0.5),
+        ("top_15_overall", "Remove top 15 overall",  "#b0b0b0", 0.5),
+        ("top_15_dem",     "Remove top 15 Dem",      CLR_DEM_LIGHT, 1.5),
+        ("top_15_rep",     "Remove top 15 Rep",      CLR_REP_LIGHT, 2.5),
+    ]
 
-        baseline_val = baseline[metric]
-        ax.axhline(y=baseline_val, color="gray", linestyle="--", alpha=0.6, label="Baseline")
+    for key, label, color, offset in groups:
+        vals = [pct_change(scenarios[key][m], baseline[m]) for m, _ in metrics_to_plot]
+        bars = ax.bar(x + offset * bw, vals, bw, label=label, color=color, edgecolor="white")
+        for bar, v in zip(bars, vals):
+            if abs(v) > 0.3:
+                ax.text(bar.get_x() + bar.get_width() / 2, v + (0.15 if v >= 0 else -0.4),
+                        f"{v:.1f}%", ha="center", fontsize=6.5, rotation=0)
 
-        overall_vals = [scenarios[f"top_{k}_overall"][metric] for k in remove_counts]
-        dem_vals = [scenarios[f"top_{k}_dem"][metric] for k in remove_counts]
-        rep_vals = [scenarios[f"top_{k}_rep"][metric] for k in remove_counts]
-
-        ax.bar(x - bw, overall_vals, bw, label="Remove top overall", color="#2ca02c")
-        ax.bar(x, dem_vals, bw, label="Remove top Dem", color=PARTY_COLORS["Democrat"])
-        ax.bar(x + bw, rep_vals, bw, label="Remove top Rep", color=PARTY_COLORS["Republican"])
-
-        ax.set_xticks(x)
-        ax.set_xticklabels([f"Top {k}" for k in remove_counts])
-        ax.set_ylabel(label)
-        ax.set_title(f"{panel} {label}")
-        ax.legend(fontsize=7, loc="best")
-
-    fig.suptitle("RQ4 - What-If: Removing Top Influencers",
-                 fontsize=14, fontweight="bold", y=1.01)
+    ax.set_xticks(x)
+    ax.set_xticklabels([lab for _, lab in metrics_to_plot], fontsize=9)
+    ax.set_ylabel("% Change from Baseline")
+    ax.axhline(y=0, color="black", linewidth=0.8)
+    ax.legend(fontsize=7, ncol=3, loc="lower left")
+    ax.set_title("RQ4 - What-If: % Change After Removing Top Influencers",
+                 fontsize=13, fontweight="bold")
     fig.tight_layout()
     save_fig(fig, "05_rq4_whatif.png")
+
+    # --- Figure 2: Dem vs Rep comparison at each removal level ---
+    fig2, axes2 = plt.subplots(1, 3, figsize=(15, 5), sharey=True)
+    for i, k in enumerate(remove_counts):
+        ax = axes2[i]
+        dem_pcts = [pct_change(scenarios[f"top_{k}_dem"][m], baseline[m])
+                    for m, _ in metrics_to_plot]
+        rep_pcts = [pct_change(scenarios[f"top_{k}_rep"][m], baseline[m])
+                    for m, _ in metrics_to_plot]
+        y = np.arange(n_metrics)
+        ax.barh(y - 0.2, dem_pcts, 0.35, label="Remove Dem", color=PARTY_COLORS["Democrat"])
+        ax.barh(y + 0.2, rep_pcts, 0.35, label="Remove Rep", color=PARTY_COLORS["Republican"])
+        ax.set_yticks(y)
+        ax.set_yticklabels([lab for _, lab in metrics_to_plot], fontsize=9)
+        ax.axvline(x=0, color="black", linewidth=0.8)
+        ax.set_xlabel("% Change")
+        ax.set_title(f"Remove Top {k}")
+        ax.legend(fontsize=8)
+
+    fig2.suptitle("RQ4 - Democrat vs Republican Removal Impact",
+                  fontsize=13, fontweight="bold", y=1.02)
+    fig2.tight_layout()
+    save_fig(fig2, "05_rq4_whatif_comparison.png")
 
     # Names of removed nodes for the report
     print("\n  Removed nodes (for reference):")

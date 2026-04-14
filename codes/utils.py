@@ -24,12 +24,18 @@ RES_DIR = os.path.join(BASE_DIR, "results")
 os.makedirs(FIG_DIR, exist_ok=True)
 os.makedirs(RES_DIR, exist_ok=True)
 
-PARTY_COLORS = {
-    "Democrat": "#1f77b4",
-    "Republican": "#d62728",
-    "Other": "#8c564b",
-}
+CLR_DEM = "#1f77b4"
+CLR_REP = "#d62728"
+CLR_OTH = "#8c564b"
+
+PARTY_COLORS = {"Democrat": CLR_DEM, "Republican": CLR_REP, "Other": CLR_OTH}
 PARTIES = ["Democrat", "Republican", "Other"]
+
+CLR_DEM_LIGHT = "#aec7e8"
+CLR_REP_LIGHT = "#ff9896"
+CLR_INTERNAL = CLR_DEM        # for within-group bars
+CLR_EXTERNAL = CLR_REP        # for cross-group bars
+CLR_NEUTRAL = "#7f7f7f"       # gray for non-party items
 
 
 def load_graph():
