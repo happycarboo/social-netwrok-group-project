@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 
-from utils import (load_graph, load_users, party_of, PARTY_COLORS,
+from utils import (load_graph, load_users, party_of, state_of, PARTY_COLORS,
                    FIG_DIR, RES_DIR, save_fig)
 
 
@@ -88,6 +88,21 @@ def main():
         w.writerow(["chamber", "count", "share"])
         for ch, c in sorted(chamber_counts.items()):
             w.writerow([ch, c, round(c / N, 4)])
+
+    # --- State breakdown ---
+    state_counts = {}
+    for n in nodes:
+        st = state_of(users, n)
+        state_counts[st] = state_counts.get(st, 0) + 1
+    print("\n  Top 10 state breakdown:")
+    for st, c in sorted(state_counts.items(), key=lambda x: x[1], reverse=True)[:10]:
+        print(f"    {st}: {c} ({c/N*100:.1f}%)")
+
+    with open(f"{RES_DIR}/state_breakdown.csv", "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["state", "count", "share"])
+        for st, c in sorted(state_counts.items(), key=lambda x: x[0]):
+            w.writerow([st, c, round(c / N, 4)])
 
     # --- Figure 1: Network coloured by party ---
     print("\nComputing layout (spring)...")

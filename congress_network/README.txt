@@ -18,6 +18,24 @@ usernameList[i] gives the Twitter username corresponding to node i
 
 congress.edgelist contains the weighted, directed edgelist for the Congressional network, in NetworkX format
 
+User metadata for analysis scripts is loaded from users 2.xlsx only (updated fields
+such as State/District / chamber). The stock users.xlsx from some downloads is
+not used.
+
+Gephi / GEXF (directed)
+-----------------------
+All Python scripts under ../codes/ load congress.edgelist as a directed graph
+(NetworkX DiGraph). If you open an undirected GEXF in Gephi, or merge A->B with
+B->A, degree/betweenness/SCC metrics will NOT match the report.
+
+For Gephi, generate a directed GEXF from the same edgelist:
+
+  python3 convert_to_gexf_directed.py
+
+This writes congress_directed.gexf (graph defaultedgetype="directed"). Import
+that file and keep the graph type directed in Gephi so group visual checks align
+with the full analysis.
+
 This folder is kept as a data-only source directory for the group project.
 All analysis scripts have been moved to ../codes/.
 

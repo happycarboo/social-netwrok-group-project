@@ -21,40 +21,6 @@ from utils import (load_graph, load_users, party_of, username_of,
                    PARTY_COLORS, PARTIES, FIG_DIR, RES_DIR, save_fig)
 
 
-def compute_viral_centrality():
-    """Run VC from dataset JSON if not already cached."""
-    vc_path = os.path.join(RES_DIR, "viral_centrality_scores.csv")
-    if os.path.exists(vc_path):
-        print("  VC scores already computed, loading from cache.")
-        scores = {}
-        with open(vc_path) as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                scores[int(row["node_id"])] = float(row["viral_centrality"])
-        return scores
-
-    DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "congress_network")
-    import json as _json
-    from viral_centrality import viral_centrality
-
-    with open(os.path.join(DATA_DIR, "congress_network_data.json"), encoding="utf-8") as f:
-        data = _json.load(f)[0]
-
-    num_activated = viral_centrality(
-        data["inList"], data["inWeight"], data["outList"], Niter=-1, tol=0.001
-    )
-    scores = {i: float(v) for i, v in enumerate(num_activated)}
-    username_list = data["usernameList"]
-
-    with open(vc_path, "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["node_id", "username", "viral_centrality"])
-        for i in range(len(num_activated)):
-            w.writerow([i, username_list[i], round(float(num_activated[i]), 6)])
-    print(f"  VC scores computed and saved.")
-    return scores
-
-
 def main():
     G = load_graph()
     users = load_users()
@@ -79,10 +45,7 @@ def main():
     except nx.PowerIterationFailedConvergence:
         eigen = nx.eigenvector_centrality(G, max_iter=1000)
 
-    print("  Computing Viral Centrality...")
-    vc = compute_viral_centrality()
-
-    # Build full table
+    # Build full table (rank by out-strength = total directed influence probability broadcast)
     rows = []
     for n in nodes:
         rows.append({
@@ -96,19 +59,18 @@ def main():
             "betweenness": round(betw.get(n, 0), 6),
             "closeness": round(close.get(n, 0), 6),
             "eigenvector": round(eigen.get(n, 0), 6),
-            "viral_centrality": round(vc.get(n, 0), 6),
         })
-    rows.sort(key=lambda x: x["viral_centrality"], reverse=True)
+    rows.sort(key=lambda x: x["out_strength"], reverse=True)
 
     with open(f"{RES_DIR}/rq2_centrality_full.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader()
         w.writerows(rows)
 
-    print("\n  Top 10 by Viral Centrality:")
+    print("\n  Top 10 by out-strength (broadcasting effort):")
     for i, r in enumerate(rows[:10]):
-        print(f"    {i+1:2d}. {r['username']:20s} {r['party']:12s} VC={r['viral_centrality']:.3f}"
-              f"  Betw={r['betweenness']:.4f}  Out-Str={r['out_strength']:.3f}")
+        print(f"    {i+1:2d}. {r['username']:20s} {r['party']:12s} Out-Str={r['out_strength']:.3f}"
+              f"  Betw={r['betweenness']:.4f}")
 
     # =====================================================================
     # Q2.2  Influence imbalance / reciprocity
@@ -152,7 +114,7 @@ def main():
         top = rows[:top_n]
         party_cnt = Counter(r["party"] for r in top)
         balance[f"top_{top_n}"] = {p: party_cnt.get(p, 0) for p in PARTIES}
-        print(f"  Top {top_n} by VC: " +
+        print(f"  Top {top_n} by out-strength: " +
               ", ".join(f"{p}={party_cnt.get(p,0)}" for p in PARTIES))
 
     with open(f"{RES_DIR}/rq2_party_balance.json", "w") as f:
@@ -165,15 +127,15 @@ def main():
 
     fig, axes = plt.subplots(2, 2, figsize=(14, 11))
 
-    # Panel A: Top 15 by Viral Centrality
+    # Panel A: Top 15 by out-strength (lecture-aligned: weighted degree / broadcasting)
     ax = axes[0, 0]
     top15 = rows[:15]
     names = [r["username"] for r in top15][::-1]
-    vals = [r["viral_centrality"] for r in top15][::-1]
+    vals = [r["out_strength"] for r in top15][::-1]
     colors = [PARTY_COLORS[r["party"]] for r in top15][::-1]
     ax.barh(names, vals, color=colors, edgecolor="white")
-    ax.set_xlabel("Viral Centrality")
-    ax.set_title("(A) Top 15 by Viral Centrality")
+    ax.set_xlabel("Out-strength (sum of outgoing p_ij)")
+    ax.set_title("(A) Top 15 by Out-Strength")
     ax.tick_params(axis="y", labelsize=8)
 
     # Panel B: Out-strength vs In-strength scatter
@@ -199,7 +161,7 @@ def main():
     colors_b = [PARTY_COLORS[r["party"]] for r in betw_sorted][::-1]
     ax.barh(names_b, vals_b, color=colors_b, edgecolor="white")
     ax.set_xlabel("Betweenness Centrality")
-    ax.set_title("(B) Top 15 by Betweenness (Brokerage)")
+    ax.set_title("(C) Top 15 by Betweenness (Brokerage)")
     ax.tick_params(axis="y", labelsize=8)
 
     # Panel D: Party balance in top N

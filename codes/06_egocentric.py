@@ -83,19 +83,19 @@ def main():
     G = load_graph()
     users = load_users()
 
-    # Pick top Republican and top Democrat by VC
+    # Pick top Republican and top Democrat by out-strength (same as RQ2 v3)
     import csv
-    vc = {}
-    with open(f"{RES_DIR}/viral_centrality_scores.csv") as f:
+    strength = {}
+    with open(f"{RES_DIR}/rq2_centrality_full.csv") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            vc[int(row["node_id"])] = float(row["viral_centrality"])
+            strength[int(row["node_id"])] = float(row["out_strength"])
 
     nodes = list(G.nodes())
     dem_top = max((n for n in nodes if party_of(users, n) == "Democrat"),
-                  key=lambda n: vc.get(n, 0))
+                  key=lambda n: strength.get(n, 0))
     rep_top = max((n for n in nodes if party_of(users, n) == "Republican"),
-                  key=lambda n: vc.get(n, 0))
+                  key=lambda n: strength.get(n, 0))
 
     print("=" * 60)
     print("Egocentric Network Analysis")

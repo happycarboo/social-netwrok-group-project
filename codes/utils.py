@@ -39,7 +39,11 @@ CLR_NEUTRAL = "#7f7f7f"       # gray for non-party items
 
 
 def load_graph():
-    """Load directed weighted graph from edgelist."""
+    """Load directed weighted graph from edgelist.
+
+    Canonical source: congress_network/congress.edgelist (same as
+    congress_directed.gexf from convert_to_gexf_directed.py for Gephi).
+    """
     G = nx.DiGraph()
     with open(os.path.join(DATA_DIR, "congress.edgelist"), encoding="utf-8") as f:
         for line in f:
@@ -60,11 +64,29 @@ def load_users():
         import subprocess
         subprocess.run([sys.executable, "-m", "pip", "install", "openpyxl", "-q"])
         import openpyxl
-    wb = openpyxl.load_workbook(os.path.join(DATA_DIR, "users.xlsx"))
+    users_path = os.path.join(DATA_DIR, "users 2.xlsx")
+    if not os.path.exists(users_path):
+        raise FileNotFoundError(
+            f"User metadata not found: {users_path}. "
+            "Add congress_network/users 2.xlsx (canonical, up-to-date metadata)."
+        )
+    wb = openpyxl.load_workbook(users_path)
     ws = wb.active
     rows = list(ws.iter_rows(values_only=True))
     header = rows[0]
-    return {int(r[0]): dict(zip(header, r)) for r in rows[1:]}
+    users = {}
+    for r in rows[1:]:
+        if r[0] is None:
+            continue
+        record = dict(zip(header, r))
+        state_district = record.get("State/District")
+        if state_district:
+            # Keep state as a dedicated field for easier grouping.
+            record["State"] = str(state_district).split("-", 1)[0].strip()
+        else:
+            record["State"] = None
+        users[int(r[0])] = record
+    return users
 
 
 def party_of(users, n):
@@ -77,6 +99,17 @@ def party_of(users, n):
 
 def username_of(users, n):
     return users.get(n, {}).get("Users", str(n))
+
+
+def state_of(users, n):
+    """Return normalised state name/abbr for a node."""
+    s = users.get(n, {}).get("State", None)
+    if s:
+        return s
+    sd = users.get(n, {}).get("State/District", None)
+    if not sd:
+        return "Unknown"
+    return str(sd).split("-", 1)[0].strip() or "Unknown"
 
 
 def save_fig(fig, name):

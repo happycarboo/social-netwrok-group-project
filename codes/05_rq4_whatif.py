@@ -57,12 +57,12 @@ def main():
     nodes = list(G.nodes())
     node_party = {n: party_of(users, n) for n in nodes}
 
-    # Load VC scores
-    vc = {}
-    with open(f"{RES_DIR}/viral_centrality_scores.csv") as f:
+    # Rank removals by out-strength (same metric as RQ2 v3; lecture-aligned weighted degree)
+    strength_rank = {}
+    with open(f"{RES_DIR}/rq2_centrality_full.csv") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            vc[int(row["node_id"])] = float(row["viral_centrality"])
+            strength_rank[int(row["node_id"])] = float(row["out_strength"])
 
     # Baseline stats
     baseline = network_stats(G)
@@ -72,8 +72,7 @@ def main():
     for k, v in baseline.items():
         print(f"  {k}: {v}")
 
-    # Sort nodes by VC
-    vc_ranked = sorted(vc.items(), key=lambda x: x[1], reverse=True)
+    ranked = sorted(strength_rank.items(), key=lambda x: x[1], reverse=True)
 
     # Scenarios
     remove_counts = [5, 10, 15]
@@ -81,10 +80,10 @@ def main():
 
     # Scenario A: Remove top N overall
     print("\n" + "=" * 60)
-    print("SCENARIO A: Remove top N influencers (by VC)")
+    print("SCENARIO A: Remove top N influencers (by out-strength)")
     print("=" * 60)
     for k in remove_counts:
-        to_remove = [n for n, _ in vc_ranked[:k]]
+        to_remove = [n for n, _ in ranked[:k]]
         removed_names = [username_of(users, n) for n in to_remove]
         G_rem = G.copy()
         G_rem.remove_nodes_from(to_remove)
@@ -104,7 +103,7 @@ def main():
     print("\n" + "=" * 60)
     print("SCENARIO B: Remove top N Democrat influencers")
     print("=" * 60)
-    dem_ranked = [(n, s) for n, s in vc_ranked if node_party[n] == "Democrat"]
+    dem_ranked = [(n, s) for n, s in ranked if node_party[n] == "Democrat"]
     for k in remove_counts:
         to_remove = [n for n, _ in dem_ranked[:k]]
         removed_names = [username_of(users, n) for n in to_remove]
@@ -126,7 +125,7 @@ def main():
     print("\n" + "=" * 60)
     print("SCENARIO C: Remove top N Republican influencers")
     print("=" * 60)
-    rep_ranked = [(n, s) for n, s in vc_ranked if node_party[n] == "Republican"]
+    rep_ranked = [(n, s) for n, s in ranked if node_party[n] == "Republican"]
     for k in remove_counts:
         to_remove = [n for n, _ in rep_ranked[:k]]
         removed_names = [username_of(users, n) for n in to_remove]
@@ -225,7 +224,7 @@ def main():
     # Names of removed nodes for the report
     print("\n  Removed nodes (for reference):")
     for k in remove_counts:
-        top_overall = [username_of(users, n) for n, _ in vc_ranked[:k]]
+        top_overall = [username_of(users, n) for n, _ in ranked[:k]]
         top_dem = [username_of(users, n) for n, _ in dem_ranked[:k]]
         top_rep = [username_of(users, n) for n, _ in rep_ranked[:k]]
         print(f"    Top {k} overall: {', '.join(top_overall)}")

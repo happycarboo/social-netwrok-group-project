@@ -5,13 +5,13 @@
     "Other": 0
   },
   "top_20": {
-    "Democrat": 6,
-    "Republican": 13,
+    "Democrat": 8,
+    "Republican": 11,
     "Other": 1
   },
   "top_50": {
     "Democrat": 16,
-    "Republican": 28,
-    "Other": 6
+    "Republican": 25,
+    "Other": 9
   }
 }
